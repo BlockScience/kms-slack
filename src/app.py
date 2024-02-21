@@ -4,14 +4,16 @@ from slack_bolt.adapter.socket_mode.async_handler import AsyncSocketModeHandler
 from slack_bolt.async_app import AsyncApp
 import asyncio
 from app.interaction_handlers import conversational, direct, agentic
-from app.db import Preferences
+
+# from app.db import Preferences
 import os
 from app.message import Message
 from dotenv import load_dotenv
 
 load_dotenv()
 
-prefs = Preferences()
+# prefs = Preferences()
+dm_mode = "conversational"
 app = AsyncApp(token=os.getenv("SLACK_APP_TOKEN"))
 
 
@@ -72,31 +74,30 @@ async def messaged(event):
     ts = event["ts"]
     user = event["user"]
 
-    m = prefs.get_dm_mode(user)
-    if m == "direct":
+    if dm_mode == "direct":
         await direct(prompt, user, channel, ts, thread_ts)
-    elif m == "conversational":
+    elif dm_mode == "conversational":
         await conversational(prompt, user, channel, ts, thread_ts)
-    elif m == "agentic" or m is None:
+    elif dm_mode == "agentic" or dm_mode is None:
         await agentic(prompt, user, channel, ts, thread_ts)
 
 
 @app.action("dm_mode_select")
 async def update_mode(ack, body):
-    new_mode = body["actions"][0]["selected_option"]["value"]
-    user = body["user"]["id"]
-    prefs.set_dm_mode(user, new_mode)
+    # new_mode = body["actions"][0]["selected_option"]["value"]
+    # user = body["user"]["id"]
+    # prefs.set_dm_mode(user, new_mode)
     await ack()
 
 
 @app.event("app_home_opened")
 async def update_home_tab(client, event, logger):
-    user = event["user"]
-    current_mode = prefs.get_dm_mode(user)
+    # user = event["user"]
+    current_mode = dm_mode
     print("current dm mode:", current_mode)
 
     if current_mode is None:
-        prefs.set_dm_mode(user, DEFAULT_DM_MODE)
+        # prefs.set_dm_mode(user, DEFAULT_DM_MODE)
         current_mode = DEFAULT_DM_MODE
 
     try:
