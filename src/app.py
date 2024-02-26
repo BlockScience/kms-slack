@@ -4,15 +4,12 @@ from slack_bolt.adapter.socket_mode.async_handler import AsyncSocketModeHandler
 from slack_bolt.async_app import AsyncApp
 import asyncio
 from app.interaction_handlers import conversational, direct, agentic
-
-# from app.db import Preferences
 import os
 from app.message import Message
 from dotenv import load_dotenv
 
 load_dotenv()
 
-# prefs = Preferences()
 dm_mode = "conversational"
 app = AsyncApp(token=os.getenv("SLACK_APP_TOKEN"))
 
