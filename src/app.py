@@ -1,4 +1,4 @@
-from app.config import SLACK_APP_ID, VERSION, DEFAULT_DM_MODE
+from app.config import VERSION, DEFAULT_DM_MODE
 from os import environ
 from slack_bolt.adapter.socket_mode.async_handler import AsyncSocketModeHandler
 from slack_bolt.async_app import AsyncApp
@@ -45,7 +45,9 @@ async def command_agent(ack, body, logger):
 @app.event("app_mention")
 async def handle_mention(body):
     """Handles a message event from slack. Called when a user mentions the bot in a channel."""
-    prompt = str(body["event"]["text"]).split(f"<@{SLACK_APP_ID}>")[1].strip()
+    prompt = (
+        str(body["event"]["text"]).split(f"<@{os.getenv('SLACK_APP_ID')}>")[1].strip()
+    )
     prompt = body["event"]["text"]
     channel = body["event"]["channel"]
     ts = body["event"]["ts"]

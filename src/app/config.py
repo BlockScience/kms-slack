@@ -1,7 +1,5 @@
-VERSION = "v0.2.0"
+VERSION = "v0.2.1"
 SOURCES_PER_QUESTION = 8
-SLACK_TEAM_ID = "TA2E6KPK3"
-SLACK_APP_ID = "U06LB6CFR70"  # "U055TK4J9NG" in production
 DB_PATH = "db/chats.db"
 DEFAULT_DM_MODE = "conversational"
 STREAM_IF_STARTS_WITH = ("Plan:",)
