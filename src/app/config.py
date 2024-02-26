@@ -1,5 +1,5 @@
-VERSION = "v0.2.1"
-SOURCES_PER_QUESTION = 8
+VERSION = "v0.2.2"
+SOURCES_PER_QUESTION = 12
 DB_PATH = "db/chats.db"
 DEFAULT_DM_MODE = "conversational"
 STREAM_IF_STARTS_WITH = ("Plan:",)

@@ -2,6 +2,7 @@ from langchain.chains import RetrievalQAWithSourcesChain, ConversationalRetrieva
 from langchain_openai import ChatOpenAI
 from langchain.memory import ConversationBufferMemory
 from langchain.embeddings.voyageai import VoyageEmbeddings
+from langchain.retrievers.multi_query import MultiQueryRetriever
 from langchain_pinecone import Pinecone
 from dotenv import load_dotenv
 from app.config import SOURCES_PER_QUESTION
@@ -13,7 +14,7 @@ PINECONE_API_KEY = getenv("PINECONE_API_KEY")
 VOYAGE_API_KEY = getenv("VOYAGE_API_KEY")
 NAMESPACE = getenv("NAMESPACE")
 
-embeddings = VoyageEmbeddings(model="voyage-02", voyage_api_key=VOYAGE_API_KEY)
+embeddings = VoyageEmbeddings(model="voyage-2", voyage_api_key=VOYAGE_API_KEY)
 vectorstore = Pinecone(
     index_name="bsci-knowledge",
     embedding=embeddings,
@@ -30,6 +31,9 @@ llm = ChatOpenAI(
     temperature=0.5,
     streaming=True,
 )
+multi_retriever = MultiQueryRetriever.from_llm(
+    retriever=vectorstore.as_retriever(), llm=llm
+)
 
 # -------------- MEMORIES -------------
 memory = ConversationBufferMemory(memory_key="chat_history", return_messages=True)
@@ -41,5 +45,5 @@ QA_chain = RetrievalQAWithSourcesChain.from_llm(
     return_source_documents=True,
 )
 conversation_chain = ConversationalRetrievalChain.from_llm(
-    llm, retriever=retriever, return_source_documents=True
+    llm, retriever=multi_retriever, return_source_documents=True, verbose=True
 )
