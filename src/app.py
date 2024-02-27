@@ -46,7 +46,7 @@ async def command_agent(ack, body, logger):
 async def handle_mention(body):
     """Handles a message event from slack. Called when a user mentions the bot in a channel."""
     prompt = (
-        str(body["event"]["text"]).split(f"<@{os.getenv('SLACK_APP_ID')}>")[1].strip()
+        str(body["event"]["text"]).split(f"<@{os.getenv('SLACK_BOT_USER_ID')}>")[1].strip()
     )
     prompt = body["event"]["text"]
     channel = body["event"]["channel"]

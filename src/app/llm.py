@@ -13,10 +13,11 @@ load_dotenv()
 PINECONE_API_KEY = getenv("PINECONE_API_KEY")
 VOYAGE_API_KEY = getenv("VOYAGE_API_KEY")
 NAMESPACE = getenv("NAMESPACE")
+INDEX_NAME = getenv("INDEX_NAME")
 
 embeddings = VoyageEmbeddings(model="voyage-2", voyage_api_key=VOYAGE_API_KEY)
 vectorstore = Pinecone(
-    index_name="bsci-knowledge",
+    index_name=INDEX_NAME,
     embedding=embeddings,
     pinecone_api_key=PINECONE_API_KEY,
     namespace=NAMESPACE,
