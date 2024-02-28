@@ -1,7 +1,6 @@
 from langchain.callbacks.base import BaseCallbackHandler
 from langchain.schema import AgentAction, LLMResult, AgentFinish
 from app.message import MultipartMessage, Message
-from app.config import STREAM_IF_STARTS_WITH
 from time import time
 
 
@@ -33,7 +32,7 @@ class AgenticCallbackHandler(BaseCallbackHandler):
     def on_llm_new_token(self, token: str, **kwargs) -> None:
         if self.response.streaming_target is None:
             self.response.streaming_buffer += token
-            if self.response.streaming_buffer.startswith(STREAM_IF_STARTS_WITH):
+            if self.response.streaming_buffer.startswith("Plan:"):
                 self.response.streaming_target = self.response.add(
                     self.response.streaming_buffer
                 )

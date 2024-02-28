@@ -1,8 +1,7 @@
-VERSION = "v0.2.2"
+VERSION = "v0.2.3"
 SOURCES_PER_QUESTION = 12
 DB_PATH = "db/chats.db"
 DEFAULT_DM_MODE = "conversational"
-STREAM_IF_STARTS_WITH = ("Plan:",)
 PLACEHOLDERS = [
     "Tapping into the BlockScience hive mind... :bee:",
     "Exploring the mycelial network... :mushroom:",
