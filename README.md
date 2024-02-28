@@ -3,7 +3,7 @@
 to do:
 - write this readme
 
-`docker build -t kms-slack .` then `docker run -p 4000:80 kms-slack`
+`docker build -t kms-slack .` then `docker run --env-file .env -p 8080:8080 kms-slack`
 
 `docker logs -f kms-slack` to see output while container is running
 
